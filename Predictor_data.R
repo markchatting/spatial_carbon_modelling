@@ -4,7 +4,7 @@
 
 ########################################################################################
 
-#Coordinates to extract from netcdfs/geotiffs/whatever other formats
+#Create coordinates object to extract predictor data from netcdfs/geotiffs/etc from the same locations as sampled reponse data.
 setwd("~/UCD/model_training")
 train_df <- readRDS("response.RData")
 pts <- train_df[, 1:2]
@@ -14,7 +14,7 @@ pts <- train_df[, 1:2]
 dist_test <- ggOceanMaps::dist2land(pts) %>% mutate(where = ifelse(ldist == 0, "land", ifelse(ldist < 100*1.852, "coast", "sea")))
 coast_dist <- dist_test$ldist
 
-#Bathymetry
+#EMODnet Bathymetry
 raster_file <- "~/UCD/datasets/bathymetry/EMODbathymetry.tif"
 geo_pts <- pts
 coordinates(geo_pts) <- ~ lon+ lat
@@ -23,29 +23,12 @@ bath_EMOD <- extract(ras, geo_pts)
 
 
 #Bottom water temperature, Bottom water salinity, Surface primary productivity,
-#mean current velocity, max current velocity
-
-geo_pts <- pts
-coordinates(geo_pts) <- ~ lon+ lat
-	
-par(mfrow = c(2, 5))
-raster_files <- list.files("~/UCD/datasets/bio_oracle", full.names=T)
-bio_oracle_preds <- list()
-for(i in 1:length(raster_files)){
-	ras <- raster(raster_files[i])
-	bio_oracle_preds[[i]] <- extract(ras, geo_pts)
-	hist(bio_oracle_preds[[i]], xlab=pred_names[i], main="")
-	print(i)
-}
-names(bio_oracle_preds) <- c("salinity", "temperature", "max_current", "mean_current", "productivity")
-str(bio_oracle_preds)
-
+#mean current velocity, max current velocity from bio-oracle
 layer_names <- c("BO22_salinitymean_bdmean", "BO22_tempmean_bdmean", "BO22_curvelmax_bdmean", "BO22_curvelmean_bdmean", "BO22_ppmean_bdmean")
 data_extract <- list()
 for(i in 1:length(layer_names)){
 	data_layer <- load_layers(layer_names[[i]])
 	data_extract[[i]] <- extract(data_layer, pts)
-	hist(data_extract[[i]], xlab=paste(pred_names[i], "R framework", sep=" "), main="")
 	print(i)
 }
 names(data_extract) <- c("salinity", "temperature", "max_current", "mean_current", "productivity")
@@ -66,9 +49,7 @@ for(i in 1:length(nc_files)){
 	spm <- interp.surface(spm_mat, pts)
 	out_mat[, i] <- spm
 }
-
 spm_mean <- rowMeans(out_mat, na.rm = T)
-
 
 #Orbital wave velocity at the seabed
 nc_file <- "~/UCD/datasets/Wilson_2018/sediment_properties.nc"
@@ -88,7 +69,7 @@ names(out_vars) <- vars
 str(out_vars)
 
 
-#Combine all predictor variables
+#Combine all predictor variables into one dataframe
 pred_vars <- data.frame(train_df$lon, train_df$lat, train_df$carbon, coast_dist, dist_test$where, bath, data_extract[[1]], data_extract[[2]], data_extract[[3]], data_extract[[4]], data_extract[[5]], spm_mean, out_vars[[1]], out_vars[[2]], out_vars[[3]], out_vars[[4]],	
 					out_vars[[5]])
 pred_vars <- pred_vars[pred_vars$dist_test.where != "land", ]
@@ -98,3 +79,9 @@ str(pred_vars)
 
 setwd("~/UCD/model_training")
 saveRDS(pred_vars, "pred_vars.RData")
+
+########################################################################################
+
+		#	END!!!		#
+
+########################################################################################
