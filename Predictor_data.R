@@ -5,7 +5,7 @@
 ########################################################################################
 
 #Create coordinates object to extract predictor data from netcdfs/geotiffs/etc from the same locations as sampled reponse data.
-setwd("~/UCD/model_training")
+setwd("~/UCD/model_training") # Directory I created where objects are saved to on disk. CHANGE THIS FILEPATH TO MATCH WHERE YOU WANT TO SAVE OBJECTSON YOUR COMPUTER
 train_df <- readRDS("response.RData")
 pts <- train_df[, 1:2]
 
@@ -77,7 +77,8 @@ names(pred_vars) <- c("lon", "lat", "response", "coast_dist", "where", "bathymet
 pred_vars <- pred_vars[, c(1:4, 6:17)]
 str(pred_vars)
 
-setwd("~/UCD/model_training")
+#Save the resulting dataframe to disk
+setwd("~/UCD/model_training")# Directory I created where objects are saved to on disk. CHANGE THIS FILEPATH TO MATCH WHERE YOU WANT TO SAVE OBJECTSON YOUR COMPUTER
 saveRDS(pred_vars, "pred_vars.RData")
 
 ########################################################################################
