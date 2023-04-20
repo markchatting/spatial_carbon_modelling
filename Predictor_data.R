@@ -5,6 +5,8 @@
 ########################################################################################
 
 #Coordinates to extract from netcdfs/geotiffs/whatever other formats
+setwd("~/UCD/model_training")
+train_df <- readRDS("response.RData")
 pts <- train_df[, 1:2]
 
 
@@ -95,4 +97,4 @@ pred_vars <- pred_vars[, c(1:4, 6:17)]
 str(pred_vars)
 
 setwd("~/UCD/model_training")
-#saveRDS(pred_vars, "pred_vars.RData")
+saveRDS(pred_vars, "pred_vars.RData")
