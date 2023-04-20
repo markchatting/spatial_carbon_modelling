@@ -5,8 +5,8 @@
 ########################################################################################
 
 #Create x and y spatial grid from inference_shp shapefile. 
-outer_area <- read_sf("~/UCD/model_training/inference_shp/inference_shp.shp")
-inner_area <- read_sf("~/QU/GIS shapefiles/GB_I_Isles/GB_I_Isles.shp")
+outer_area <- read_sf("~/UCD/shapefiles/inference_shp/inference_shp.shp")
+inner_area <- read_sf("~/UCD/shapefiles/GB_I_Isles/GB_I_Isles.shp")
 inference_area <- st_difference(outer_area, inner_area)
 
 inference_grid <- inference_area %>% 
@@ -117,3 +117,9 @@ str(infer_vars)
 setwd("~/UCD/model_training")
 saveRDS(infer_vars, "inference_vars.RData")
 saveRDS(infer_pts, "infer_pts.RData")
+
+########################################################################################
+
+		#		END!!		#
+		
+########################################################################################
