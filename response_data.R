@@ -96,3 +96,10 @@ setwd("~/UCD/model_training") # This is a folder I created on my computer to sav
 tiff("Sampling_data_locations.tiff", units="cm", width=10, height=10, res=200)
 sampling_plot
 dev.off()
+
+
+########################################################################################
+
+		#	END!!!		#
+
+########################################################################################
