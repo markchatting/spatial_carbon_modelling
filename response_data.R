@@ -7,7 +7,7 @@
 #Extract response data from various sources
 
 #Natura
-setwd("~/UCD/datasets")				
+setwd("~/UCD/datasets")	# This is the file path where I saved the 'datasets' folder from the QUEST online folder.		
 natura_psa <- readOGR(dsn = "PSA", layer = "Natura_PSA")
 
 #Mason et et al. (2017) aka Diesing et al. (2017)
@@ -49,7 +49,7 @@ setwd("~/UCD/datasets/HABMAP")
 habmap <- read.csv("HABMAP.csv", header=T, sep=",")
 
 
-#Combining all data into one dataframe
+#Combining all data into one dataframe. The Natura and MI_PSA datasets reported Loss on Ignition so I used a LOI to TOC conversion of / 1.724 (Frqangipane et al. 2009)
 train_df <- data.frame(
 			rbind(
 				cbind(infomar$Longitude, infomar$Latitude, infomar$TOC, rep("infomar", times=nrow(infomar))), 
@@ -64,9 +64,6 @@ train_df <- data.frame(
 			)
 names(train_df) <- c("lon", "lat", "carbon", "source")
 
-#	LOI / 1.724 converts LOI to TOC (Frqangipane et al. 2009)
-
-
 train_df$lon <- as.numeric(train_df$lon)
 train_df$lat <- as.numeric(train_df$lat)
 train_df$carbon <- as.numeric(train_df$carbon)
@@ -76,12 +73,11 @@ train_df <- na.omit(train_df)
 train_df <- train_df[, 1:3]
 str(train_df)
 
-
-setwd("~/UCD/model_training")
+setwd("~/UCD/model_training") # This is a folder I created on my computer to save objects I create throughout the whole process. CHANGE THIS TO A FOLDER WHERE YOU'D LIKE OBJECTS SAVED ON YOUR COMPUTER
 write.csv(train_df, "training_data.csv", row.names=F)
 
-GB_and_I <- read_sf("~/QU/GIS shapefiles/GB_I_Isles/GB_I_Isles.shp")
 
+GB_and_I <- read_sf("~/QU/GIS shapefiles/GB_I_Isles/GB_I_Isles.shp") # Location on my computer for a shapefile of UK and Ireland. I have included the neccessary shapefiles in a folder in this repo.
 my_sf <- st_as_sf(train_df, coords=c("lon", "lat"))
 st_crs(my_sf) <- "+proj=longlat +datum=WGS84"
 sampling_plot <- ggplot(my_sf) + geom_sf(aes(color=carbon), size=0.15) +
