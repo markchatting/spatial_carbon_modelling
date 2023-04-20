@@ -45,6 +45,8 @@ C <- train_df
 coordinates(C) <- c("lon", "lat")
 B <- SpatialPoints(spat_group)
 D <- SpatialPoints(C)
+	  
+GB_and_I <- read_sf("~/UCD/shapefiles/GB_I_Isles/GB_I_Isles.shp")
 
 setwd("~/UCD/model_training")# Directory I created where objects are saved to on disk. CHANGE THIS FILEPATH TO MATCH WHERE YOU WANT TO SAVE OBJECTSON YOUR COMPUTER
 tiff("Spatial_folds.tiff", units="cm", width=35, height=20, res=150)
