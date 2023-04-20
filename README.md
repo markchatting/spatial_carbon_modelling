@@ -1,5 +1,5 @@
 # spatial_carbon_modelling
-Spatial modelling of organic carbon density in surficial marine sediment.
+Spatial modelling of organic carbon density in surficial marine sediment. Various shapefiles are needed throughout the scripts. I have included a 'shapefiles' folder in this repo. Make sure when the scripts call a specific shapefile that the filepath mathces your computer.
 
 Scripts should be run in this order:
 
