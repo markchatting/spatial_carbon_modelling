@@ -74,7 +74,7 @@ train_df <- train_df[, 1:3]
 str(train_df)
 
 setwd("~/UCD/model_training") # This is a folder I created on my computer to save objects I create throughout the whole process. CHANGE THIS TO A FOLDER WHERE YOU'D LIKE OBJECTS SAVED ON YOUR COMPUTER
-saveRDS(train_df, "reponse_data.RData"
+saveRDS(train_df, "reponse_data.RData")
 write.csv(train_df, "training_data.csv", row.names=F)
 
 
