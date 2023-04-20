@@ -92,7 +92,7 @@ sampling_plot <- ggplot(my_sf) + geom_sf(aes(color=carbon), size=0.15) +
 			        ) +
 			    geom_sf(data=GB_and_I, fill="#dadada", inherit.aes=TRUE)
     
-setwd("~/UCD/model_training")
+setwd("~/UCD/model_training") # This is a folder I created on my computer to save objects I create throughout the whole process. CHANGE THIS TO A FOLDER WHERE YOU'D LIKE OBJECTS SAVED ON YOUR COMPUTER
 tiff("Sampling_data_locations.tiff", units="cm", width=10, height=10, res=200)
 sampling_plot
 dev.off()
