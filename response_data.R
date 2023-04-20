@@ -77,7 +77,7 @@ setwd("~/UCD/model_training") # This is a folder I created on my computer to sav
 write.csv(train_df, "training_data.csv", row.names=F)
 
 
-GB_and_I <- read_sf("~/QU/GIS shapefiles/GB_I_Isles/GB_I_Isles.shp") # Location on my computer for a shapefile of UK and Ireland. I have included the neccessary shapefiles in a folder in this repo.
+GB_and_I <- read_sf("~/UCD/shapefiles/GB_I_Isles/GB_I_Isles.shp") # Location on my computer for a shapefile of UK and Ireland. I have included the neccessary shapefiles in a folder in this repo. CHANGE THE FIRST PART OF THIS PATH TO MATCH WHERE THE SHAPFILES FOLDER IS ON YOUR COMPUTER
 my_sf <- st_as_sf(train_df, coords=c("lon", "lat"))
 st_crs(my_sf) <- "+proj=longlat +datum=WGS84"
 sampling_plot <- ggplot(my_sf) + geom_sf(aes(color=carbon), size=0.15) +
