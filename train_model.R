@@ -111,6 +111,7 @@ str(train_df)
 ########################################################################################
 
 #Forward feature selection model and use spatial cross validation to asses model performance
+#The indices$index object was created by the CreateSpacetimeFolds() function on line 39.
 train_df_i <- train_df[, c(2:14, 17:18)]
 rf_mod_ffs <- ffs(train_df_i, response, metric="RMSE", # Meyer's papers use RMSE instead of RSquared as the performance metric of choice
 				method="rf", tuneGrid=data.frame("mtry"=2),
